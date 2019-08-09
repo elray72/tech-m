@@ -1,0 +1,81 @@
+/** ====================================================================================================================
+// Variables - Global
+// ================================================================================================================== */
+
+// Base (use pixels)
+// ---------------------------------------------------------------------------------------------------------------------
+$base-font-size:		16px;
+$page-max-width:		1200px;
+
+
+// Layout (use pixels)
+// ---------------------------------------------------------------------------------------------------------------------
+$header-height-m:		64px;
+$max-height-mobile:		823px; // max height for tallest known mainstream device, Pixel XL
+
+
+// Fonts
+// ---------------------------------------------------------------------------------------------------------------------
+$font-heading:			'Noto Sans', sans-serif;
+$font-text:				'Montserrat', sans-serif;
+$font-code:				'Fira Code', monospace;
+
+
+// Colours
+// ---------------------------------------------------------------------------------------------------------------------
+
+$black:					#111;
+$off-black:				#333;
+$white:					#fff;
+$grey:					#aaa;
+$grey-pale:				#f5f5f5;
+$grey-light:			#ecf0f1;
+$grey-dark:				#535c68;
+
+$blue:					#3498db;
+$blue-pale:				#3498db;
+$blue-light:			#3498db;
+$blue-dark:				#3498db;
+$green:					#0fb9b1;
+$green-pale:			#e6f8f7;
+$green-light:			#cff1ef;
+$green-dark:			#0f9790;
+$red:					#eb4d4b;
+$red-pale:				#eb4d4b;
+$red-light:				#eb4d4b;
+$red-dark:				#eb4d4b;
+
+$primary:				#34495e;
+$primary-light:			#34495e;
+$primary-dark:			#34495e;
+$secondary:				#ff7979;
+$secondary-light:		#ff7979;
+$secondary-dark:		#ff7979;
+$tertiary:				#0fb9b1;
+$tertiary-light:		#0fb9b1;
+$tertiary-dark:			#0fb9b1;
+
+
+// Breakpoints
+// ---------------------------------------------------------------------------------------------------------------------
+
+$grid-breakpoints: (
+	xs: 0,
+	sm: 480px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px
+) !default;
+
+$screen-sm:				map-get($grid-breakpoints, sm);
+$screen-md:				map-get($grid-breakpoints, md);
+$screen-lg:				map-get($grid-breakpoints, lg);
+$screen-xl:				map-get($grid-breakpoints, xl);
+
+
+// Grid
+// ---------------------------------------------------------------------------------------------------------------------
+$grid-columns:				12;
+$grid-gutter-width:			rem(30);
+$grid-float-breakpoint:		$screen-md;						// nav expand
+$grid-float-breakpoint-max:	($grid-float-breakpoint - 1);	// nav collapse
