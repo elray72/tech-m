@@ -1,9 +1,11 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { updateProgressBar } from './_actions';
+import './_progress.scss';
+import { IBar } from './Bar';
 
 interface IProps {
-	children?: ReactElement[];
+	bars: ReactElement<IBar>[];
 	dispatch: Function;
 	selected: string;
 }
@@ -14,19 +16,31 @@ interface IButton {
 }
 
 const Controls: React.FC<IProps> = (props) => {
-	const handleClick = (value: number) => {
-		console.log(value);
-		props.dispatch(updateProgressBar(props.selected, value))
+	const selectedBar = React.Children.map(props.bars, (b, i) => {
+		const { id, value = 0 } = b.props;
+		return { id, value };
+	}).find((b) => b.id === props.selected);
+
+	const handleClick = (valueToAdd: number) => {
+		if (selectedBar) {
+			props.dispatch(updateProgressBar(props.selected, valueToAdd));
+		}
 	};
 
 	const Button = (props: IButton) => {
-		return <button onClick={() => handleClick(props.value)} value={props.value}>
-			{props.value}
-		</button>
+		return (
+			<button
+				className="progress__button"
+				onClick={() => handleClick(props.value)}
+				value={props.value}
+			>
+				{props.value}
+			</button>
+		);
 	};
 
 	return (
-		<div>
+		<div className="progress__controls">
 			<Button value={-25} />
 			<Button value={-10} />
 			<Button value={10} />
@@ -36,11 +50,8 @@ const Controls: React.FC<IProps> = (props) => {
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-	const { progressReducer } = state;
-	return {
-		selected: progressReducer.selected,
-		...ownProps,
-	};
+	const { selected } = state.progressBars;
+	return { selected, ...ownProps };
 };
 
 export default connect(mapStateToProps)(Controls);

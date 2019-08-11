@@ -28,8 +28,8 @@ const Home: React.FC = () => {
 				<H1>Progress bar</H1>
 				<ProgressBar>
 					<Bar id="bar_1" />
-					<Bar id="bar_2" value={50} />
-					<Bar id="bar_3" value={75} />
+					<Bar id="bar_2" />
+					<Bar id="bar_3" />
 				</ProgressBar>
 			</ProgressBarWrapper>
 		</Page>

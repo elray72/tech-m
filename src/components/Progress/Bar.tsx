@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { setSelectedBar } from './_actions';
 import classNames from 'classnames';
+import { setSelectedBar, updateProgressBar } from './_actions';
+import './_progress.scss';
 
 export interface IBar {
 	id: string;
@@ -9,23 +10,30 @@ export interface IBar {
 	dispatch: Function;
 	onClick?: Function;
 	value?: number;
+	valueToAdd?: number;
 }
 
 const Bar: React.FC<IBar> = (props) => {
-
-	const barInnerRef = React.useRef(null);
-	const [value, setValue] = React.useState(props.value ? props.value : 0);
-
-	const updateProgressBar = (value: number = 0) => {
-		const bar = barInnerRef.current;
-		const barWidth = value / 100;
-		//bar.style.transform = `translateX(scaleX(${barWidth})`;
-	};
+	const { id, value = 0, valueToAdd = 0 } = props;
+	const barInnerRef = React.useRef<HTMLSpanElement>(null);
 
 	React.useEffect(() => {
-		//const newValue = props.value + props.value;
-		//updateProgressBar(props.value);
+		props.dispatch(updateProgressBar(id, props.value));
+	}, []);
+
+	React.useEffect(() => {
+		//props.dispatch(updateProgressBar(id, props.value));
+		updateProgressBarInner(value);
 	}, [props.value]);
+
+	const updateProgressBarInner = (value: number) => {
+		const bar = barInnerRef.current;
+		if (bar) {
+			const barWidth = value / 100;
+			bar.style.transform = `scaleX(${barWidth})`;
+			bar.style.transitionDuration = `${Math.abs(valueToAdd / 100)}s`;
+		}
+	};
 
 	const handleClick = () => {
 		props.dispatch(setSelectedBar(props.id));
@@ -33,23 +41,29 @@ const Bar: React.FC<IBar> = (props) => {
 
 	const componentClass = classNames('progress__bar', {
 		'progress__bar--active': props.id === props.selected,
+		'progress__bar--over': value > 100,
 	});
 
 	return (
 		<div className={componentClass} onClick={handleClick}>
 			<span className="progress__bar-outer">
-				<span className="progress__bar-inner" ref={barInnerRef}>{value}</span>
+				<span className="progress__bar-inner" ref={barInnerRef} />
+				<span className="progress__bar-label">{value}%</span>
 			</span>
 		</div>
 	);
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-	const { progressReducer } = state;
+	const { selected, bars, valueToAdd } = state.progressBars;
+	const currBar = bars.find((b: any) => b.id === ownProps.id);
+	let { value = 0 } = currBar ? currBar : ownProps;
+
 	return {
-		selected: progressReducer.selected,
-		value: ownProps.value + progressReducer.value,
-		...ownProps,
+		selected,
+		value,
+		valueToAdd,
+		...state,
 	};
 };
 
