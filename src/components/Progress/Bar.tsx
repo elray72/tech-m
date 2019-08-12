@@ -16,6 +16,7 @@ export interface IBar {
 
 const Bar: React.FC<IBar> = (props) => {
 	const { id, value = 0, valueToAdd = 0, limit } = props;
+	const pctValue = Math.round(value / limit * 100);
 	const barInnerRef = React.useRef<HTMLSpanElement>(null);
 
 	React.useEffect(() => {
@@ -30,7 +31,7 @@ const Bar: React.FC<IBar> = (props) => {
 	const updateProgressBarInner = (value: number) => {
 		const bar = barInnerRef.current;
 		if (bar) {
-			const barWidth = value / 100;
+			const barWidth = pctValue / 100;
 			bar.style.transform = `scaleX(${barWidth})`;
 			bar.style.transitionDuration = `${Math.abs(valueToAdd / 100)}s`;
 		}
@@ -42,14 +43,14 @@ const Bar: React.FC<IBar> = (props) => {
 
 	const componentClass = classNames('progress__bar', {
 		'progress__bar--active': props.id === props.selected,
-		'progress__bar--over': value > 100,
+		'progress__bar--over': value > limit,
 	});
 
 	return (
 		<div id={id} className={componentClass} onClick={handleClick}>
 			<span className="progress__bar-outer">
 				<span className="progress__bar-inner" ref={barInnerRef} />
-				<span className="progress__bar-label">{value}%</span>
+				<span className="progress__bar-label">{pctValue}%</span>
 			</span>
 			<span className="progress__bar-legend">{value} / {limit}</span>
 		</div>
