@@ -3,7 +3,7 @@
 .progress {
 	width: 100%;
 	max-width: em(480);
-	padding: em(40) em(24);
+	padding: em(40) em(24) em(24);
 	display: flex;
 	flex-direction: column;
 	background: $grey-light;
@@ -13,15 +13,10 @@
 		display: block;
 		width: 100%;
 		height: 50px;
-		margin: 0 0 em(16) 0;
+		margin: 0 0 em(40) 0;
 		padding-right: em(24);
 		cursor: pointer;
 		position: relative;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-
 		&:before {
 			content: '';
 			display: block;
@@ -33,18 +28,6 @@
 			border-radius: 50%;
 			opacity: 0;
 			transition: opacity 0.25s ease-in-out;
-		}
-
-		&--active {
-			&:before {
-				opacity: 1;
-			}
-		}
-
-		&--over {
-			.progress__bar-inner {
-				background-color: $secondary;
-			}
 		}
 
 		&-outer {
@@ -82,14 +65,72 @@
 			z-index: 1;
 		}
 
+		&-legend {
+			position: absolute;
+			bottom: rem(-28);
+			right: rem(24);
+			width: rem(100);
+			height: rem(24);
+			line-height: rem(24);
+			font-size: em(12);
+			text-align: right;
+		}
+
 		&:hover {
 			.progress__bar-outer {
 				background-color: rgba($white, 0.5);
 			}
 
 			.progress__bar-inner {
+				background-color: lighten($green, 4%);
+			}
+		}
+
+		&--active {
+			&:before {
+				opacity: 1;
+			}
+
+			.progress__bar-inner {
 				background-color: darken($green, 8%);
 			}
+
+			&:hover {
+				.progress__bar-inner {
+					background-color: darken($green, 12%);
+				}
+			}
+		}
+
+		&--over {
+			.progress__bar-inner {
+				background-color: $secondary;
+			}
+		}
+	}
+
+	&__controls {
+		padding: 0;
+		margin-right: em(24);
+		display: flex;
+		height: em(40);
+		flex-direction: row;
+	}
+
+	&__button {
+		height: 100%;
+		flex-grow: 1;
+		margin: 0 em(8);
+
+		&:hover {
+			background-color: rgba($primary, 0.8);
+		}
+
+		&:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
 		}
 	}
 }

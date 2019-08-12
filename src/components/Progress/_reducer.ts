@@ -13,6 +13,7 @@ interface IBar {
 const initialState = {
 	bars: [] as IBar[],
 	config: undefined,
+	isFetching: true,
 	selected: undefined,
 	valueToAdd: 0,
 };
@@ -21,20 +22,28 @@ const progressBarsReducer = (state = initialState, action: any) => {
 	switch (action.type) {
 		case REQUEST_PROGRESS_BARS_CONFIG:
 			return Object.assign({}, state, {
-				selected: action.selected,
+				isFetching: true,
 			});
+
 		case RECEIVE_PROGRESS_BARS_CONFIG:
 			return Object.assign({}, state, {
-				config: action.data,
+				isFetching: false,
+				config: action.config,
+				lastUpdated: action.receivedAt,
 			});
+
 		case SET_SELECTED_BAR:
 			return Object.assign({}, state, {
 				selected: action.selected,
 			});
+
 		case UPDATE_PROGRESS_BAR: {
 			const { selected, valueToAdd } = action;
 			const { bars } = state;
 			const bar = bars.find((b: IBar) => b.id === selected);
+
+			console.log('dog', state);
+
 			if (!bar) {
 				bars.push({
 					id: selected,

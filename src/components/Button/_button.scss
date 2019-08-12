@@ -1,0 +1,37 @@
+@import "../../themes/light/common";
+
+.button {
+	border: none;
+	border-radius: em(4);
+	background: $primary;
+	transition: 0.25s ease-in-out;
+	color: $white;
+	font-weight: bold;
+	font-family: $font-heading;
+	cursor: pointer;
+	outline: none;
+	position: relative;
+	overflow: hidden;
+
+	&__ripple {
+		width: 1px;
+		height: 1px;
+		@include position-absolute(0, 0);
+		background: rgba(255, 255, 255, 0.2);
+		transform-origin: 50% 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 50%;
+		animation: ripple-effect 1s cubic-bezier(ease-in-out-quad);
+		z-index: 2;
+	}
+}
+
+@keyframes ripple-effect {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-50%, -50%) scale(500, 500);
+		opacity: 0;
+	}
+}

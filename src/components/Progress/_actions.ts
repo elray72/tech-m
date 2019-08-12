@@ -15,7 +15,7 @@ export const receiveProgressBarsConfig = (data: any) => {
 	return {
 		type: RECEIVE_PROGRESS_BARS_CONFIG,
 		config: data,
-		receivedAt: Date.now()
+		receivedAt: Date.now(),
 	};
 };
 
